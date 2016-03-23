@@ -89,6 +89,7 @@ s,
 samp,
 small,
 span,
+span[class],
 strong,
 sub,
 sup,
@@ -417,6 +418,20 @@ p::first-line,
 div::first-line {
   font-weight: normal !important;
   font-variant: normal !important;
+}
+
+ol:before,
+ul:before {
+  content:'';
+  display: none;	
+}
+
+ol {
+  list-style-type: disc;
+}
+
+ul {
+  list-style-type: decimal;
 }
 
 /*
