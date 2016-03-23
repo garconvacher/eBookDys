@@ -366,7 +366,7 @@ img.portrait {
 }
 
 figure > img + p,
-figure > img + p,
+figcaption > p,
 div > img + p,
 p > img + span {
 	margin-top: 0;
