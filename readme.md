@@ -1,6 +1,6 @@
 # eBookDys.css
 
-The aim of this repo is to provide a simple eBook stylesheet which follows the best practices regarding styles for dyslexia. Please note I am by no means what you would call an expert, I’m just trying to help and make positive stuff.
+The aim of this repo is to provide a simple eBook stylesheet which follows the best practices regarding styles for dyslexia. Please note I am by no means what you would call an expert, I’m just trying to help and make a positive impact.
 
 Let’s hope it shakes people a little bit so that we don’t just embed dedicated typefaces in Reading Systems and call the job done. Hopefully, it will also offer a sensible starting point for people to whom it might be useful.
 
@@ -25,7 +25,7 @@ Just add this stylesheet in your eBook. It was designed to override the styleshe
 
 - Trebuchet MS is the default typeface (it seems to be one of the dys readers’ favorites).
 - Text is left-aligned, without hyphens.
-- Italics are styled as bold.
+- Italics are styled as bold. **(to confirm)**
 - We try to override drop caps.
 - Headings in bigger `font-size` + bold + lowercase.
 - Block paragraphs (no indent, top margin).
@@ -33,12 +33,12 @@ Just add this stylesheet in your eBook. It was designed to override the styleshe
 - Yellow, mint, blue and pink backgrounds are provided as classes for body if needed.
 - A baseline grid can be added using class `.baseline` to body.
 - A border is declared for `aside`.
-- The title of `abbr` is displayed between parentheses.
-- The `vertical-align` for `sub/sup` is set to baseline.
-- Since decorative images may interfere, we try to hide them.
+- The title of `abbr` is displayed between parentheses. **(to confirm)**
+- The `vertical-align` for `sub/sup` is set to baseline. **(to confirm)**
+- Since decorative images may interfere, we try to hide them. **(to confirm or make functional `body` class)**
 
 ## To do
 
-- `letter-` and `word-spacing` (yup, the weird bug I encountered for inline elements is probably due to the reset)
+- `letter-` and `word-spacing` (gah, weird bug in webkit)
 - ~~lake placid blue and pink backgrounds~~
 - ~~a horizontal line to show text’s baseline may help some~~
