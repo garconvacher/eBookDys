@@ -47,3 +47,4 @@ Just add this stylesheet in your eBook. It was designed to override the styleshe
 
 - [Microsoft Fluent Calibri and Sitka typefaces](https://www.microsoft.com/en-us/download/details.aspx?id=50721)
 - [Open Dyslexic typeface](http://opendyslexic.org)
+- [Complete list of EPUB 3 a11y metadata (opf)](https://gist.github.com/JayPanoz/19d105d90cc62d09ae8b)
