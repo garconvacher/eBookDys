@@ -4,15 +4,15 @@ The aim of this repo is to provide a simple eBook stylesheet which follows the b
 
 Let’s hope it shakes people a little bit so that we don’t just embed dedicated typefaces in Reading Systems and call the job done. Hopefully, it will also offer a sensible starting point for people to whom it might be useful.
 
-You are warmly welcomed to give feedback.
+You are warmly invited to give feedback.
 
 ## Licence
 
-All files available in this repo are licensed under [Creative Commons Zero](https://creativecommons.org/publicdomain/zero/1.0/deed.en), which means you can copy, modify, distribute and use them for free, including commercial purposes, without asking permission from or providing attribution to me.
+All files available in this repo are licensed under [Creative Commons Zero](https://creativecommons.org/publicdomain/zero/1.0/deed.en), which means you can copy, modify, distribute and use them for free, including commercial purposes, without asking permission from or providing attribution.
 
 ## How to
 
-Just add this stylesheet in an eBook. It was designed to override the stylesheets that are already present in the file. However, given the state of eBook Production, it is quite impossible to override anything in the best conditions (e.g. unsemantic markup).
+Just add this stylesheet in your eBook. It was designed to override the stylesheets that are already present in the file. However, given the state of eBook Production, it is quite impossible to override anything in the best conditions (e.g. unsemantic markup).
 
 ## Sources
 
@@ -25,16 +25,16 @@ Just add this stylesheet in an eBook. It was designed to override the stylesheet
 
 To sum things up:
 
-- Trebuchet MS is the default typeface (it seems it is one of the dyslexic readers’ favorite).
+- Trebuchet MS is the default typeface (it seems to be one of the dys readers’ favorites).
 - text is left-aligned, without hyphens.
 - italics are styled as bold.
 - we try to override drop caps.
 - headings in bigger `font-size` + bold + lowercase.
 - block paragraphs (no indent, top margin).
 - larger `line-height` (1.75).
-- yellow and mint green are provided as classes for body if needed.
+- yellow and mint green backgrounds are provided as classes for body if needed.
 - a border is declared for `aside`.
-- the title of `abbr` is displayed between parentheses after the term.
+- the title of `abbr` is displayed between parentheses.
 - the `vertical-align` for `sub/sup` is set to baseline.
 - since decorative images may interfere, we try to hide them.
 
