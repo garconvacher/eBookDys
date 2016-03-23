@@ -41,4 +41,5 @@ To sum things up:
 ## To do
 
 - `letter-` and `word-spacing`
+- lake placid blue and pink backgrounds
 - a horizontal line to show text’s baseline may help some
