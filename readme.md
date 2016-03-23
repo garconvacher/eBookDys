@@ -8,7 +8,7 @@ You are warmly invited to give feedback.
 
 ## Licence
 
-All files available in this repo are licensed under [Creative Commons Zero](https://creativecommons.org/publicdomain/zero/1.0/deed.en), which means you can copy, modify, distribute and use them for free, including commercial purposes, without asking permission from or providing attribution.
+All files available in this repo are licensed under [Creative Commons Zero](https://creativecommons.org/publicdomain/zero/1.0/deed.en), which means you can copy, modify, distribute and use them for free, including commercial purposes, without asking permission or providing attribution.
 
 ## How to
 
@@ -23,23 +23,22 @@ Just add this stylesheet in your eBook. It was designed to override the styleshe
 
 ## Abstract
 
-To sum things up:
-
 - Trebuchet MS is the default typeface (it seems to be one of the dys readers’ favorites).
-- text is left-aligned, without hyphens.
-- italics are styled as bold.
-- we try to override drop caps.
-- headings in bigger `font-size` + bold + lowercase.
-- block paragraphs (no indent, top margin).
-- larger `line-height` (1.75).
-- yellow and mint green backgrounds are provided as classes for body if needed.
-- a border is declared for `aside`.
-- the title of `abbr` is displayed between parentheses.
-- the `vertical-align` for `sub/sup` is set to baseline.
-- since decorative images may interfere, we try to hide them.
+- Text is left-aligned, without hyphens.
+- Italics are styled as bold.
+- We try to override drop caps.
+- Headings in bigger `font-size` + bold + lowercase.
+- Block paragraphs (no indent, top margin).
+- Larger `line-height` (1.75).
+- Yellow, mint, blue and pink backgrounds are provided as classes for body if needed.
+- A baseline grid can be added using class `.baseline` to body.
+- A border is declared for `aside`.
+- The title of `abbr` is displayed between parentheses.
+- The `vertical-align` for `sub/sup` is set to baseline.
+- Since decorative images may interfere, we try to hide them.
 
 ## To do
 
-- `letter-` and `word-spacing`
+- `letter-` and `word-spacing` (yup, the weird bug I encountered for inline elements is probably due to the reset)
 - ~~lake placid blue and pink backgrounds~~
 - ~~a horizontal line to show text’s baseline may help some~~
