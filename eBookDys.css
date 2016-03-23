@@ -149,6 +149,31 @@ body.mint {
   padding: 2%;
 }
 
+body.blue {
+  background-color: #E0F2F7;
+  background-image: -webkit-linear-gradient(left, #E0F2F7, #E0F2F7);
+  background-image: linear-gradient(left, #E0F2F7, #E0F2F7);
+  padding: 2%;
+}
+
+body.pink {
+  background-color: #FBEFFB;
+  background-image: -webkit-linear-gradient(left, #FBEFFB, #FBEFFB);
+  background-image: linear-gradient(left, #FBEFFB, #FBEFFB);
+  padding: 2%;
+}
+
+.baseline > p,
+.baseline > div,
+.baseline li,
+.baseline dt,
+.baseline dd {
+  background-image: -webkit-linear-gradient(top, rgba(0,0,0,0) 92%,rgba(0,0,0,0.3) 100%); 
+  background-image: linear-gradient(top, rgba(0,0,0,0.3) 92%,rgba(0,0,0,0.3) 100%);
+  background-size: 100% 1.75em;
+  background-position: top -0.45em left 0;
+}
+
 /* Headings */
 
 h1,
