@@ -42,3 +42,8 @@ Just add this stylesheet in your eBook. It was designed to override the styleshe
 - `letter-` and `word-spacing` (gah, weird bug in webkit)
 - ~~lake placid blue and pink backgrounds~~
 - ~~a horizontal line to show text’s baseline may help some~~
+
+## Useful resources 
+
+- [Microsoft Fluent Calibri and Sitka typefaces](https://www.microsoft.com/en-us/download/details.aspx?id=50721)
+- [Open Dyslexic typeface](http://opendyslexic.org)
