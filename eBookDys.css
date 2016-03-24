@@ -171,7 +171,7 @@ body.pink {
 .baseline dt,
 .baseline dd {
   background-image: -webkit-linear-gradient(top, rgba(0,0,0,0) 92%,rgba(0,0,0,0.3) 100%); 
-  background-image: linear-gradient(top, rgba(0,0,0,0.3) 92%,rgba(0,0,0,0.3) 100%);
+  background-image: linear-gradient(top, rgba(0,0,0,0) 92%,rgba(0,0,0,0.3) 100%);
   background-size: 100% 1.75em;
   background-position: top -0.45em left 0;
 }
