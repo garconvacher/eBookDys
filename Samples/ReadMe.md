@@ -1,6 +1,6 @@
 # Moby Dick Sample
 
-Why yet another *Moby Dick* sample? [Blame it on \@dauwhe](https://twitter.com/dauwhe/status/717716010325950464).
+Why yet another *Moby Dick* sample? [Blame it on @dauwhe](https://twitter.com/dauwhe/status/717716010325950464).
 
 ## Source + Licence
 
