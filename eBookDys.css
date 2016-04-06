@@ -165,8 +165,8 @@ body.pink {
   padding: 2%;
 }
 
-.baseline > p,
-.baseline > div,
+.baseline p,
+.baseline div,
 .baseline li,
 .baseline dt,
 .baseline dd {
@@ -285,7 +285,6 @@ a {
   text-decoration: none;  
   font-weight: bold;
   color: #0101df;
-  -webkit-text-fill-color: #0101df;
 }
 
 abbr {}
@@ -307,10 +306,9 @@ strong {
 hr {
   width: 100%;
   margin: 1.6875em 0;
-  height: 0.0625em;
-  background-color: #171717;
+  height: 0;
   border: none;
-  border-top: 0.0625em solid #eaeaea;
+  border-top: 0.125em solid currentColor;
 }
 
 table {
@@ -352,7 +350,8 @@ video {
 }
 
 aside {
-  border: 0.0625em solid #c2c2c2;
+  margin: 1.75em 0;
+  border: 0.0625em solid currentColor;
   padding: 0.8125em;
 }
 
