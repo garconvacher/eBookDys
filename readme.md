@@ -8,7 +8,7 @@ You are warmly invited to give feedback.
 
 ## Licence
 
-All files available in this repo are licensed under [Creative Commons Zero](https://creativecommons.org/publicdomain/zero/1.0/deed.en), which means you can copy, modify, distribute and use them for free, including commercial purposes, without asking permission or providing attribution.
+All files available in this repo—excepted the EPUB sample—are licensed under [Creative Commons Zero](https://creativecommons.org/publicdomain/zero/1.0/deed.en), which means you can copy, modify, distribute and use them for free, including commercial purposes, without asking permission or providing attribution.
 
 ## How to
 
