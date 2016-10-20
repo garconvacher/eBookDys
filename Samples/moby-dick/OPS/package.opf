@@ -34,12 +34,13 @@
       media-type="image/jpeg"/>
     <item id="style" href="css/stylesheet.css" media-type="text/css"/>
     <item id="css-dys" href="css/eBookDys.css" media-type="text/css"/>
+    <item id="js-dys" href="js/eBookDys.js" media-type="text/javascript"/>
     <item id="aMoby-Dick_FE_title_page" href="images/Moby-Dick_FE_title_page.jpg"
       media-type="image/jpeg"/>
     <item id="xpreface_001" href="preface_001.xhtml" media-type="application/xhtml+xml"/>
     <item id="xintroduction_001" href="introduction_001.xhtml" media-type="application/xhtml+xml"/>
     <item id="xepigraph_001" href="epigraph_001.xhtml" media-type="application/xhtml+xml"/>
-    <item id="xchapter_001" href="chapter_001.xhtml" media-type="application/xhtml+xml"/>
+    <item id="xchapter_001" href="chapter_001.xhtml" media-type="application/xhtml+xml" properties="scripted"/>
     <item id="xchapter_002" href="chapter_002.xhtml" media-type="application/xhtml+xml"/>
     <item id="xchapter_003" href="chapter_003.xhtml" media-type="application/xhtml+xml"/>
     <item id="xchapter_004" href="chapter_004.xhtml" media-type="application/xhtml+xml"/>
