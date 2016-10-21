@@ -11,11 +11,8 @@
  		- reading rule
  		- letter/word spacing (might screw pagination up)
  		- remove images (might screw pagination up)
- 
- 		BUGS
- 		- iBooks’ CFI script breaks as soon as user changes background
-   		(from native settings), consequently disabling buttons. 
-   		[Bug level: ¯\_(ツ)_/¯ ]
+ 		- append stylesheet if option = true (???)
+
  																																		*/
 
 r(function() {
