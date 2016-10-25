@@ -5,7 +5,6 @@
  		“First build it, then improve it (maybe) then let hardcore Javascripters make it more elegant.” — Jiminy Panoz
 
  		TODO
- 		- disable button when active
  		- check (xml:)lang and apply button’s aria-label accordingly
  		- pop-up menu (less disrupting)
  		- reading rule
@@ -16,22 +15,70 @@
 
 r(function() {
 
-	// Checking localStorage support
-	function storageTest(){
-    var test = 'test';
-    try {
-      localStorage.setItem(test, test);
-      localStorage.removeItem(test);
-      return true;
-    } catch(e) {
-    	return false;
-    }
-	};
+	var storage = (function() {
+		// Checking if localStorage is supported
+		var _hasLocalStorage = (function() {
+			var test = 'test';
+			try {
+				localStorage.setItem(test, test);
+				localStorage.removeItem(test);
+				return true;
+			} catch(e) {
+				return false;
+			}
+  	})();
+
+		// Functions for cookies (read and write)
+		var _readCookie = function(name) {
+    	var nameEQ = name + "=";
+    	var ca = document.cookie.split(';');
+    	for (var i = 0; i < ca.length; i++) {
+      	var c = ca[i];
+      	while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+      	if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    	}
+    	return null;
+  	};
+
+  	var _writeCookie = function(name, value, days) {
+    	var expiration = (function() {
+      	if (days) {
+        	var date = new Date();
+        	date.setTime(date.getTime() + (days*24*60*60*1000));
+        	return "; expires=" + date.toGMTString();
+      	} else {
+        	return "";
+      	}
+    	})();
+    	document.cookie = name + "=" + value + expiration + "; path=/";
+  	};
+
+  	return {
+    	// storage.set() -> if localStorage setItem else write cookie
+    	set: function(name, value, days) {
+      	_hasLocalStorage ? localStorage.setItem(name, value) : _writeCookie(name, value, days);
+    	},
+
+    	// storage.get() -> read from localStorage or from cookie
+    	get: function(name) {
+      	return _hasLocalStorage ? localStorage.getItem(name) : _readCookie(name);
+    	},
+
+    	// storage.remove() -> removeItem or set cookie yesterday
+    	remove: function(name) {
+      	_hasLocalStorage ? localStorage.removeItem(name) : this.set(name, "", -1);
+    	}
+  	};
+	})();
 		
 	// VARS
 	
+	// For injecting eBookDys.css automatically
+	var loadCSS = false; // Change to true if you want to activate auto-injection
+	var eBookDysCSS = 'css/eBookDys.css'; // path to the css
+  
 	// For applying background to html tag
-  // We'll be using getElementsByTagName because it’s faster than querySelector and we’ve got a tight perf budget
+	// We'll be using getElementsByTagName because it’s faster than querySelector and we’ve got a tight perf budget
 	var root = document.getElementsByTagName('html')[0];
 	
   // For injecting menu styles
@@ -83,8 +130,8 @@ r(function() {
 		var button = document.createElement('button');
 		
 		// Setting attributes (role, class, id and label)
-		button.setAttribute('role', 'button');	// Cos’ it’s not the default
-		button.classList.add(color);	// In case we want to add another class at some point
+		button.setAttribute('type', 'button');	// Cos’ it’s not the default
+		button.classList.add("ebookdys-color", color);
 		button.id = color;
 		if (color == 'rsDefault') {
 			button.setAttribute('aria-label', 'Reset background');
@@ -104,6 +151,16 @@ r(function() {
 	push.appendChild(menu);
 	body.insertBefore(push, body.firstChild);
 	
+	// Injecting css if var -> true
+	// We must inject that before following <style>
+  if (loadCSS === true) {
+    var link = document.createElement('link');
+    link.rel = "stylesheet";
+    link.href = eBookDysCSS;
+    link.type = "text/css";
+  	head.appendChild(link);
+  }
+	
 	// Injecting Menu styles
 		// Setting type attribute because XHTML
 		style.setAttribute('type', 'text/css');
@@ -116,23 +173,26 @@ r(function() {
 	  head.appendChild(style);
 	  
 	// Adding background to body if previously set by user
-	if (storageTest() === true) {
-		var previousBg = localStorage.getItem('eBookDys_bg');
-		if (previousBg != null) {
-			root.dataset.ebookdys_bg = previousBg;
-		};
+	var previousBg = storage.get('eBookDys_bg');
+	if (previousBg) {
+		root.dataset.ebookdys_bg = previousBg;
+		// Adding disabled attribute to corresponding button
+		var disable = document.getElementById(previousBg); // get by id -> more perf
+		disable.disabled = true;
 	};
 	  
 	// Event Listeners
-		function toggleBackground(e) {
-			var bodyColor = this.getAttribute('id'); // cos id is unique
-			root.dataset.ebookdys_bg = bodyColor;		 // cos we must deal with RS’ custom attributes, ids and classes…
-			if (storageTest() === true) {
-				localStorage.setItem('eBookDys_bg', bodyColor); // Set item for laterretrieving
-			};
-			e.preventDefault(); // The two because eBook RS
-			e.stopPropagation(); // The two because eBook RS
-		};
-	
+	function toggleBackground(e) {
+		var enable = document.querySelector('.ebookdys-color[disabled]'); // We scope since other buttons will be added
+		var bodyColor = this.getAttribute('id'); // cos id is unique
+		root.dataset.ebookdys_bg = bodyColor;		 // cos we must deal with RS’ custom attributes, ids and classes…
+		storage.set('eBookDys_bg', bodyColor); // Set item for later retrieving
+		if (enable) { // if a button is disabled
+			enable.removeAttribute('disabled'); // remove attribute = reenable
+		}
+		this.disabled = true; // then disable clicked button
+		e.preventDefault(); // The two because eBook RS
+		e.stopPropagation(); // The two because eBook RS
+	};
 });
 function r(f){/in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}	
