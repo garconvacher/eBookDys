@@ -168,7 +168,7 @@ r(function() {
 				
 		// Adding CSS for menu
 		// Improve using CSSstylesheet API
-		style.textContent = 'body {padding: 2%;} button {display: inline-block; width: 3em; height: 3em; border-radius: 50%; line-height: 1; margin: 0 1%; border: 0.125em solid currentColor; cursor: pointer;} #menu {display: block; margin:  1.75em auto; text-align: center !important;} button.rsDefault {background-color:'+rsDefault+'} button.yellow, html[data-ebookdys_bg="yellow"], html[data-ebookdys_bg="yellow"] body {background-color:'+yellow+'} button.mint, html[data-ebookdys_bg="mint"], html[data-ebookdys_bg="mint"] body {background-color:'+mint+'} button.blue, html[data-ebookdys_bg="blue"], html[data-ebookdys_bg="blue"] body {background-color:'+blue+'} button.pink, html[data-ebookdys_bg="pink"], html[data-ebookdys_bg="pink"] body {background-color:'+pink+'} h1 {page-break-before: avoid;} .rule {width: 100%; height: 0.125rem; background-color: rgba(0, 0, 0, 0.35); line-height: 0; font-size: 0; position: absolute; left: 0; right: 0;} label {display: block; margin-top: 24px;}';
+		style.textContent = 'body {padding: 2%;} button {display: inline-block; width: 3em; height: 3em; border-radius: 50%; line-height: 1; margin: 0 1%; border: 0.125em solid currentColor; cursor: pointer;} #menu {display: block; margin:  1.75em auto; text-align: center !important;} button.rsDefault {background-color:'+rsDefault+'} button.yellow, html[data-ebookdys_bg="yellow"], html[data-ebookdys_bg="yellow"] body {background-color:'+yellow+'} button.mint, html[data-ebookdys_bg="mint"], html[data-ebookdys_bg="mint"] body {background-color:'+mint+'} button.blue, html[data-ebookdys_bg="blue"], html[data-ebookdys_bg="blue"] body {background-color:'+blue+'} button.pink, html[data-ebookdys_bg="pink"], html[data-ebookdys_bg="pink"] body {background-color:'+pink+'} h1 {page-break-before: avoid;} .rule {width: 100%; height: 0.125rem; background-color: rgba(0, 0, 0, 0.35); line-height: 0; font-size: 0; position: absolute; left: 0; right: 0;} #tts-checker {display: block; margin-top: 20px;}';
 		
 		// Injecting styles in head
 	  head.appendChild(style);
@@ -210,6 +210,7 @@ r(function() {
 		var label = document.createElement('label');
 		var isPaused = true;
 	
+		label.id = 'tts-checker';
 		label.innerHTML = '<input type="checkbox" name="tts" value="Text to Speech"/> Text To Speech';
 		menu.appendChild(label);
 	
@@ -227,7 +228,7 @@ r(function() {
 			e.stopPropagation();
 			if (isPaused) {
 				var elt = e.target;
-				var toSpeak = elt.innerText;
+				var toSpeak = elt.textContent;
 				elt.style.fontWeight = "bold";
 				var utterance = new SpeechSynthesisUtterance(toSpeak);
 				utterance.pitch = 1;
