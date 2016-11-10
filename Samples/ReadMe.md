@@ -23,6 +23,9 @@ Everything isn’t perfect but well, I told you so.
 - Some specific overrides had to be added in `eBookDys.css` (see comment `/* Specific override for this book */`).
 - eBookDys.css is used from “Chapter 1. Loomings.” Table of contents, preface, introduction and epigraph aren’t overriden to show what the original styling looks like.
 - eBookDys.js is used in “Chapter 1. Loomings.” It should add a menu with five buttons on load. [Check this demo](https://twitter.com/JiminyPan/status/789195541368320001).
+- If `speechSynthesis` is supported, a checkbox for Text-to-Speech should be added in the menu as well.
+- Finally, if you’re using a mouse/touchpad, a checkbox for a Reading Rule should be added in the menu.
+- By changing the var `loadCSS` to `true` in eBookDys.js and the path to the CSS in `eBookDysCSS`, the CSS will be loaded automatically (no need to add it yourself).
 - The iBooks meta `specified-fonts` has been added to the OPF.
 - This sample doesn’t provide with all elements eBookDys.css supports (`table`, `blockquote`, `dl`, `hr`, `abbr`, etc.).
 - Baseline helper doesn’t make miracles in paginated environments so if you’ve got any solution, pull request and chill.

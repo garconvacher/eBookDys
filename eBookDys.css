@@ -132,9 +132,6 @@ body {
   -webkit-hyphens: none !important;
   -epub-hyphens: none !important;
   hyphens: none !important;
-
-/*letter-spacing: 0.0625em;
-  word-spacing: 0.125em;		*/
 }
 
 body.yellow {
@@ -163,17 +160,6 @@ body.pink {
   background-image: -webkit-linear-gradient(left, #ffccbc, #ffccbc);
   background-image: linear-gradient(left, #ffccbc, #ffccbc);
   padding: 2%;
-}
-
-.baseline p,
-.baseline div,
-.baseline li,
-.baseline dt,
-.baseline dd {
-  background-image: -webkit-linear-gradient(top, rgba(0,0,0,0) 92%,rgba(0,0,0,0.3) 100%); 
-  background-image: linear-gradient(top, rgba(0,0,0,0) 92%,rgba(0,0,0,0.3) 100%);
-  background-size: 100% 1.75em;
-  background-position: top -0.45em left 0;
 }
 
 /* Headings */

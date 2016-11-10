@@ -7,7 +7,6 @@
  		TODO
  		- check (xml:)lang and apply button’s aria-label accordingly
  		- pop-up menu (less disrupting)
- 		- reading rule
  		- letter/word spacing (might screw pagination up)
  		- remove images (might screw pagination up)
  		- Stylesheet -> stylesheet API to add/remove at will (e.g. ::selection for TTS)
@@ -73,6 +72,12 @@ r(function() {
 	})();
 		
 	// VARS
+	
+	var isNotTouch = true; 
+	
+	if ('touchend' in window) {
+		return isNotTouch = false;
+	}
 	
 	// For injecting eBookDys.css automatically
 	var loadCSS = false; // Change to true if you want to activate auto-injection
@@ -168,7 +173,7 @@ r(function() {
 				
 		// Adding CSS for menu
 		// Improve using CSSstylesheet API
-		style.textContent = 'body {padding: 2%;} button {display: inline-block; width: 3em; height: 3em; border-radius: 50%; line-height: 1; margin: 0 1%; border: 0.125em solid currentColor; cursor: pointer;} #menu {display: block; margin:  1.75em auto; text-align: center !important;} button.rsDefault {background-color:'+rsDefault+'} button.yellow, html[data-ebookdys_bg="yellow"], html[data-ebookdys_bg="yellow"] body {background-color:'+yellow+'} button.mint, html[data-ebookdys_bg="mint"], html[data-ebookdys_bg="mint"] body {background-color:'+mint+'} button.blue, html[data-ebookdys_bg="blue"], html[data-ebookdys_bg="blue"] body {background-color:'+blue+'} button.pink, html[data-ebookdys_bg="pink"], html[data-ebookdys_bg="pink"] body {background-color:'+pink+'} h1 {page-break-before: avoid;} .rule {width: 100%; height: 0.125rem; background-color: rgba(0, 0, 0, 0.35); line-height: 0; font-size: 0; position: absolute; left: 0; right: 0;} #tts-checker {display: block; margin-top: 20px;}';
+		style.textContent = 'body {padding: 2%;} button {display: inline-block; width: 3em; height: 3em; border-radius: 50%; line-height: 1; margin: 0 1%; border: 0.125em solid currentColor; cursor: pointer;} #menu {display: block; margin:  1.75em auto; text-align: center !important;} button.rsDefault {background-color:'+rsDefault+'} button.yellow, html[data-ebookdys_bg="yellow"], html[data-ebookdys_bg="yellow"] body {background-color:'+yellow+'} button.mint, html[data-ebookdys_bg="mint"], html[data-ebookdys_bg="mint"] body {background-color:'+mint+'} button.blue, html[data-ebookdys_bg="blue"], html[data-ebookdys_bg="blue"] body {background-color:'+blue+'} button.pink, html[data-ebookdys_bg="pink"], html[data-ebookdys_bg="pink"] body {background-color:'+pink+'} h1 {page-break-before: avoid;} #reading-rule {width: 100%; border-top: 0.1875em solid currentColor; opacity: 0.35; position: fixed; left: 0; right: 0; z-index: 0; margin: 0;} #tts-checker {display: block; margin-top: 20px;}';
 		
 		// Injecting styles in head
 	  head.appendChild(style);
@@ -207,15 +212,15 @@ r(function() {
 	*/
 	
   if ('speechSynthesis' in window) {
-		var label = document.createElement('label');
+		var ttsLabel = document.createElement('label');
 		var isPaused = true;
 	
-		label.id = 'tts-checker';
-		label.innerHTML = '<input type="checkbox" name="tts" value="Text to Speech"/> Text To Speech';
-		menu.appendChild(label);
+		ttsLabel.id = 'tts-checker';
+		ttsLabel.innerHTML = '<input type="checkbox" name="tts" value="Text to Speech"/> Text To Speech';
+		menu.appendChild(ttsLabel);
 	
-		label.addEventListener('change', function(e) {
-			var input = label.getElementsByTagName("input")[0];
+		ttsLabel.addEventListener('change', function(e) {
+			var input = ttsLabel.getElementsByTagName("input")[0];
 	  	if (input.checked) {
 				document.addEventListener('dblclick', speechHandler, false);
 			} else {
@@ -240,7 +245,37 @@ r(function() {
 				}
 			}
 		};
-	
 	}
+	
+	// Reading rule
+	
+	if (isNotTouch) {
+		var ruleLabel = document.createElement('label');
+		ruleLabel.id = 'rule-checker';
+		ruleLabel.innerHTML = '<input type="checkbox" name="rule" value="Show Reading Rule"/> Reading Rule';
+		menu.appendChild(ruleLabel);
+		
+		ruleLabel.addEventListener('change', function(e) {
+			var input = ruleLabel.getElementsByTagName("input")[0];
+	  	if (input.checked) {
+				var rule = document.createElement('div');
+				rule.id = 'reading-rule';
+				document.body.appendChild(rule);
+				document.addEventListener('mousemove', ruleHandler, false);
+			} else {
+				document.removeEventListener('mousemove', ruleHandler, false);
+				var rule = document.getElementById("reading-rule");
+				rule.parentElement.removeChild(rule);
+			}
+		});
+		
+		function ruleHandler(e) {
+				var rule = document.getElementById("reading-rule");
+				// fixed pos + body.scrollTop = pagination hell | 
+				// 6 = 6px offset so that you can click/select/etc.
+				rule.style.top = e.pageY - document.body.scrollTop - 6 + "px";
+		};
+	}
+	
 });
 function r(f){/in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}	
