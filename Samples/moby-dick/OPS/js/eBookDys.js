@@ -9,7 +9,6 @@
  		- pop-up menu (less disrupting)
  		- letter/word spacing (might screw pagination up)
  		- remove images (might screw pagination up)
- 		- Stylesheet -> stylesheet API to add/remove at will (e.g. ::selection for TTS)
 
  																																		*/
 
@@ -96,6 +95,14 @@ r(function() {
 	var push = document.createDocumentFragment();
 	var menu = document.createElement('div');
 	
+	// Wrapping contents into scoped eBookDys div
+	var wrapper = document.createElement('div');
+	wrapper.id = 'eBookDys-wrapper';
+	while (body.firstChild) {
+		wrapper.appendChild(body.firstChild);
+	}
+	body.appendChild(wrapper);
+	
 	// Managing colors
 	var yellow = '#fbf8bb'; 
 	var mint = '#effddd';
@@ -125,7 +132,7 @@ r(function() {
 	// For classes and ids + array so that we can add buttons dynamically
 	var colors = ['rsDefault', 'yellow', 'mint', 'blue', 'pink'];
 	
-	menu.id = 'menu';
+	menu.id = 'eBookDys-menu';
 	
 	// Generating bgColor buttons based on colors array
 	for (var i = 0; i < colors.length; i++) {
@@ -153,41 +160,7 @@ r(function() {
 		button.addEventListener('click', toggleBackground, true);
 	}
 	
-	// Injecting Menu in doc fragment then pushing doc fragment as first child in body
-	push.appendChild(menu);
-	body.insertBefore(push, body.firstChild);
-	
-	// Injecting css if var -> true
-	// We must inject that before following <style>
-  if (loadCSS === true) {
-    var link = document.createElement('link');
-    link.rel = "stylesheet";
-    link.href = eBookDysCSS;
-    link.type = "text/css";
-  	head.appendChild(link);
-  }
-	
-	// Injecting Menu styles
-		// Setting type attribute because XHTML
-		style.setAttribute('type', 'text/css');
-				
-		// Adding CSS for menu
-		// Improve using CSSstylesheet API
-		style.textContent = 'body {padding: 2%;} button {display: inline-block; width: 3em; height: 3em; border-radius: 50%; line-height: 1; margin: 0 1%; border: 0.125em solid currentColor; cursor: pointer;} #menu {display: block; margin:  1.75em auto; text-align: center !important;} button.rsDefault {background-color:'+rsDefault+'} button.yellow, html[data-ebookdys_bg="yellow"], html[data-ebookdys_bg="yellow"] body {background-color:'+yellow+'} button.mint, html[data-ebookdys_bg="mint"], html[data-ebookdys_bg="mint"] body {background-color:'+mint+'} button.blue, html[data-ebookdys_bg="blue"], html[data-ebookdys_bg="blue"] body {background-color:'+blue+'} button.pink, html[data-ebookdys_bg="pink"], html[data-ebookdys_bg="pink"] body {background-color:'+pink+'} h1 {page-break-before: avoid;} #reading-rule {width: 100%; border-top: 0.1875em solid currentColor; opacity: 0.35; position: fixed; left: 0; right: 0; z-index: 0; margin: 0;} #tts-checker {display: block; margin-top: 20px;}';
-		
-		// Injecting styles in head
-	  head.appendChild(style);
-	  
-	// Adding background to body if previously set by user
-	var previousBg = storage.get('eBookDys_bg');
-	if (previousBg) {
-		root.dataset.ebookdys_bg = previousBg;
-		// Adding disabled attribute to corresponding button
-		var disable = document.getElementById(previousBg); // get by id -> more perf
-		disable.disabled = true;
-	};
-	  
-	// Event Listeners
+	// Event Listener
 	function toggleBackground(e) {
 		var enable = document.querySelector('.ebookdys-color[disabled]'); // We scope since other buttons will be added
 		var bodyColor = this.getAttribute('id'); // cos id is unique
@@ -201,6 +174,24 @@ r(function() {
 		e.stopPropagation(); // The two because eBook RS
 	};
 	
+	// Injecting css if var -> true
+	// We must inject that before following <style>
+  if (loadCSS) {
+    var link = document.createElement('link');
+    link.rel = "stylesheet";
+    link.href = eBookDysCSS;
+    link.type = "text/css";
+  	head.appendChild(link);
+  }
+	
+	// Injecting Menu styles
+		// Setting type attribute because XHTML
+		style.setAttribute('type', 'text/css');
+				
+		// Adding CSS for menu
+		// Improve using CSSstylesheet API
+		style.textContent = 'body {padding: 2%;} #eBookDys-wrapper.tts-active * {cursor: default;} button {display: inline-block; width: 3em; height: 3em; border-radius: 50%; line-height: 1; margin: 0 1%; border: 0.125em solid currentColor; cursor: pointer;} #eBookDys-menu {display: block; margin:  1.75em auto; text-align: center !important;} button.rsDefault {background-color:'+rsDefault+'} button.yellow, html[data-ebookdys_bg="yellow"], html[data-ebookdys_bg="yellow"] body {background-color:'+yellow+'} button.mint, html[data-ebookdys_bg="mint"], html[data-ebookdys_bg="mint"] body {background-color:'+mint+'} button.blue, html[data-ebookdys_bg="blue"], html[data-ebookdys_bg="blue"] body {background-color:'+blue+'} button.pink, html[data-ebookdys_bg="pink"], html[data-ebookdys_bg="pink"] body {background-color:'+pink+'} h1 {page-break-before: avoid;} #reading-rule {width: 100%; border-top: 0.1875em solid currentColor; opacity: 0.35; position: fixed; left: 0; right: 0; z-index: 0; margin: 0;} #eBookDys-tts-checker {display: block; margin-top: 20px;}';
+	
 	// ----------------------------------------------------------------------
 	// Speak
 	
@@ -212,38 +203,59 @@ r(function() {
 	*/
 	
   if ('speechSynthesis' in window) {
+		window.utterances = []; // We need this because crappy implementations
 		var ttsLabel = document.createElement('label');
 		var isPaused = true;
 	
-		ttsLabel.id = 'tts-checker';
-		ttsLabel.innerHTML = '<input type="checkbox" name="tts" value="Text to Speech"/> Text To Speech';
+		ttsLabel.id = 'eBookDys-tts-checker';
+		ttsLabel.innerHTML = '<input type="checkbox" name="tts" value="Text to Speech"/> Click to Read';
+		
+		style.textContent += ' .eBookDys_noSelect {-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;};';
 		menu.appendChild(ttsLabel);
 	
 		ttsLabel.addEventListener('change', function(e) {
 			var input = ttsLabel.getElementsByTagName("input")[0];
 	  	if (input.checked) {
-				document.addEventListener('dblclick', speechHandler, false);
+				wrapper.addEventListener('click', speechHandler, false);
+				wrapper.classList.add('tts-active');
+				storage.set('eBookDys_tts', 'true');
 			} else {
-				document.removeEventListener('dblclick', speechHandler, false);
+				wrapper.removeEventListener('click', speechHandler, false);
+				wrapper.classList.remove('tts-active');
+				storage.set('eBookDys_tts', 'false');
 			}
 		});
-	
 		function speechHandler(e) {
 			e.preventDefault();
 			e.stopPropagation();
-			if (isPaused) {
-				var elt = e.target;
+			if (e.target && isPaused) {
+			  if (e.target.matches("b, i, small, abbr, cite, code, dfn, em, strong, time, var, a, span")) {
+					var elt = e.target.parentElement;
+				} else {
+					var elt = e.target;
+				}
+				elt.classList.add('eBookDys_noSelect');
 				var toSpeak = elt.textContent;
-				elt.style.fontWeight = "bold";
+				elt.style.backgroundColor = "yellow";
 				var utterance = new SpeechSynthesisUtterance(toSpeak);
+				utterances.push(utterance);	// Or else browser won’t necessarily fire onend…
 				utterance.pitch = 1;
 				speechSynthesis.speak(utterance);
 				isPaused = false;
 				utterance.onend = function() {
-					elt.style.fontWeight = "";
+					elt.classList.remove('eBookDys_noSelect');
+					elt.style.backgroundColor = "";
 					isPaused = true;
 				}
 			}
+		};
+		
+		var previousTTS = storage.get('eBookDys_tts');
+		if (previousTTS && previousTTS == "true") {
+			var input = ttsLabel.getElementsByTagName("input")[0];
+			input.setAttribute("checked", "checked");
+			var pushRule = new Event('change');
+			ttsLabel.dispatchEvent(pushRule);
 		};
 	}
 	
@@ -251,7 +263,7 @@ r(function() {
 	
 	if (isNotTouch) {
 		var ruleLabel = document.createElement('label');
-		ruleLabel.id = 'rule-checker';
+		ruleLabel.id = 'eBookDys-rule-checker';
 		ruleLabel.innerHTML = '<input type="checkbox" name="rule" value="Show Reading Rule"/> Reading Rule';
 		menu.appendChild(ruleLabel);
 		
@@ -262,20 +274,45 @@ r(function() {
 				rule.id = 'reading-rule';
 				document.body.appendChild(rule);
 				document.addEventListener('mousemove', ruleHandler, false);
+				storage.set('eBookDys_rule', 'true');
 			} else {
 				document.removeEventListener('mousemove', ruleHandler, false);
 				var rule = document.getElementById("reading-rule");
 				rule.parentElement.removeChild(rule);
+				storage.set('eBookDys_rule', 'false');
 			}
 		});
-		
 		function ruleHandler(e) {
 				var rule = document.getElementById("reading-rule");
 				// fixed pos + body.scrollTop = pagination hell | 
 				// 6 = 6px offset so that you can click/select/etc.
 				rule.style.top = e.pageY - document.body.scrollTop - 6 + "px";
 		};
+		
+		var previousRule = storage.get('eBookDys_rule');
+		if (previousRule && previousRule == "true") {
+			var input = ruleLabel.getElementsByTagName("input")[0];
+			input.setAttribute("checked", "checked");
+			var pushRule = new Event('change');
+			ruleLabel.dispatchEvent(pushRule);
+		};
 	}
+
+	// Injecting styles in head
+	head.appendChild(style);
+	  
+	// Injecting Menu in doc fragment then pushing doc fragment as first child in body
+	push.appendChild(menu);
+	body.insertBefore(push, body.firstChild);
+	
+	// Adding background to body if previously set by user
+	var previousBg = storage.get('eBookDys_bg');
+	if (previousBg) {
+		root.dataset.ebookdys_bg = previousBg;
+		// Adding disabled attribute to corresponding button
+		var disable = document.getElementById(previousBg); // get by id -> more perf
+		disable.disabled = true;
+	};
 	
 });
 function r(f){/in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}	
